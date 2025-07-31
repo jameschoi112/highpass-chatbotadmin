@@ -6,7 +6,7 @@
 }
 
 /* CSS Variables for Theming */
-:root {
+:root, .dark-mode {
   /* Dark Mode Colors (default) */
   --bg-primary: #000;
   --bg-secondary: rgba(10, 10, 10, 0.95);
@@ -27,21 +27,21 @@
 
 /* Light Mode Colors */
 .light-mode {
-  --bg-primary: #f8f9fa;
-  --bg-secondary: rgba(255, 255, 255, 0.95);
-  --bg-card: rgba(255, 255, 255, 0.9);
-  --text-primary: #1a1a1a;
-  --text-secondary: #4a5568;
-  --text-muted: #718096;
-  --border-color: rgba(99, 102, 241, 0.2);
-  --border-secondary: #e2e8f0;
+  --bg-primary: #ffffff;
+  --bg-secondary: rgba(255, 255, 255, 0.98);
+  --bg-card: rgba(248, 250, 252, 0.95);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: rgba(99, 102, 241, 0.15);
+  --border-secondary: #e5e7eb;
   --accent-primary: #6366f1;
   --accent-secondary: #8b5cf6;
   --accent-tertiary: #0891b2;
   --success: #059669;
   --warning: #d97706;
   --danger: #dc2626;
-  --glow-opacity: 0.3;
+  --glow-opacity: 0.2;
 }
 
 .dashboard-container {
@@ -54,6 +54,27 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Light mode background enhancement */
+.light-mode .dashboard-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  position: relative;
+}
+
+.light-mode .dashboard-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .particle-canvas {
   position: fixed;
   top: 0;
@@ -63,6 +84,35 @@
   pointer-events: none;
   opacity: var(--glow-opacity);
   z-index: 1;
+}
+.main-content {
+  margin-left: 280px;
+  padding: 2rem;
+  transition: margin-left 0.3s ease;
+  position: relative;
+  z-index: 50;
+}
+
+.main-content.sidebar-open {
+  margin-left: 280px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: block;
+  }
 }
 
 /* Sidebar Styles */
@@ -110,7 +160,6 @@
   align-items: center;
   justify-content: center;
   padding: 0.75rem;
-  margin: 1.5rem 0;
   background: var(--bg-card);
   border: 1px solid var(--border-secondary);
   border-radius: 12px;
@@ -137,12 +186,20 @@
   transition: color 0.3s ease;
 }
 
+.theme-icon:first-child {
+  color: var(--warning);
+}
+
+.theme-icon:last-child {
+  color: var(--accent-primary);
+}
+
 .theme-switch {
   position: relative;
   width: 50px;
   height: 26px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-secondary);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 13px;
   transition: all 0.3s ease;
 }
@@ -153,7 +210,7 @@
   left: 2px;
   width: 20px;
   height: 20px;
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   border-radius: 50%;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -161,6 +218,100 @@
 
 .theme-switch.active .theme-switch-handle {
   transform: translateX(24px);
+}
+
+/* Light Mode specific overrides for theme toggle */
+.light-mode .theme-switch {
+  background: rgba(0, 0, 0, 0.1);
+  border-color: var(--border-color);
+}
+
+.light-mode .theme-icon:first-child {
+  color: var(--warning);
+}
+
+.light-mode .theme-icon:last-child {
+  color: #6366f1;
+  opacity: 0.5;
+}
+
+.dark-mode .theme-icon:first-child {
+  opacity: 0.5;
+}
+
+/* Light mode card enhancements */
+.light-mode .stat-front,
+.light-mode .chart-container,
+.light-mode .activity-item {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .stat-front:hover,
+.light-mode .chart-container:hover,
+.light-mode .activity-item:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Light mode sidebar enhancement */
+.light-mode .sidebar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Light mode nav item */
+.light-mode .nav-item:hover {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.light-mode .nav-item.active {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Light mode chart enhancements */
+.light-mode .chart-container {
+  border-color: rgba(99, 102, 241, 0.1);
+}
+
+.light-mode .control-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #e5e7eb;
+  color: #64748b;
+}
+
+.light-mode .control-btn:hover,
+.light-mode .control-btn.active {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #6366f1;
+}
+
+/* Light mode specific chart text */
+.light-mode .recharts-text {
+  fill: #64748b;
+}
+
+.light-mode .recharts-layer.recharts-cartesian-axis-tick-value {
+  fill: #64748b;
+}
+
+/* Radar chart polygon enhancements */
+.light-mode .recharts-polar-grid-angle line {
+  stroke: #e5e7eb;
+  stroke-opacity: 0.5;
+}
+
+.light-mode .recharts-polar-grid-concentric-circle {
+  stroke: #e5e7eb;
+  stroke-opacity: 0.5;
+}
+
+.light-mode .recharts-polar-grid-concentric-polygon {
+  stroke: #e5e7eb;
+  stroke-opacity: 0.5;
 }
 
 /* Animations */
@@ -312,6 +463,7 @@
   background: rgba(99, 102, 241, 0.1);
   border-radius: 12px;
   border: 1px solid var(--border-color);
+  margin-bottom: 1rem;
 }
 
 .avatar-glow {
@@ -599,6 +751,11 @@
   border-radius: 16px;
   padding: 2rem;
   animation: fadeIn 1s ease-out;
+  transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+  transform: translateY(-2px);
 }
 
 .chart-header {
