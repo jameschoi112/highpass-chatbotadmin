@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { MessageSquare } from 'lucide-react';
 
 const ConversationsView = () => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [adminMode, setAdminMode] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
-  const activeChats = [
+  const activeChats = useMemo(() => [
     {
       id: 1,
       user: "John Kim",
@@ -29,7 +29,7 @@ const ConversationsView = () => {
     {
       id: 3,
       user: "Mike Park",
-      status: "active", 
+      status: "active",
       duration: "2:10",
       lastMessage: "How do I reset my password?",
       sentiment: "neutral",
@@ -46,17 +46,17 @@ const ConversationsView = () => {
       priority: "low",
       agent: null
     }
-  ];
+  ], []);
 
-  const chatMessages = [
+  const chatMessages = useMemo(() => [
     { id: 1, sender: "user", message: "Hello, I need help with my account", time: "10:23 AM" },
     { id: 2, sender: "bot", message: "Hello! I'd be happy to help you with your account. What specific issue are you experiencing?", time: "10:23 AM" },
     { id: 3, sender: "user", message: "I can't seem to change my password. The reset link isn't working", time: "10:24 AM" },
     { id: 4, sender: "bot", message: "I understand you're having trouble with the password reset. Let me help you with that.", time: "10:24 AM" },
     { id: 5, sender: "admin", message: "Hi John, I'm taking over this conversation to assist you better. Let me send you a new password reset link.", time: "10:25 AM" },
-  ];
+  ], []);
 
-  const aiSuggestions = [
+  const aiSuggestions = useMemo(() => [
     {
       type: "user_info",
       title: "User Profile Detected",
@@ -81,7 +81,7 @@ const ConversationsView = () => {
       content: "247 similar cases this week. 92% resolved with manual reset link.",
       confidence: 90
     }
-  ];
+  ], []);
 
   const messagesEndRef = useRef(null);
 
